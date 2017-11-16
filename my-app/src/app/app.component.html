@@ -1,4 +1,5 @@
-<h2 class="text-center">Doanh and Thinh - GPA Calculator</h2>
+<h2 class="text-center">{{title}}</h2>
 <div class="container">
-  <gpa-calculator></gpa-calculator>
+  <xml-convert (transcript) = "updateTranscript($event)"></xml-convert>
+  <gpa-calculator [transcript] = "transcript"></gpa-calculator>
 </div>

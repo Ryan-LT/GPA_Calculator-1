@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'GPA Calculator';
+  transcript : any;
+  updateTranscript(event){
+    this.transcript = event;
+  }
 }

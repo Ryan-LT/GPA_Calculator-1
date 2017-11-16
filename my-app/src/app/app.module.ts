@@ -4,11 +4,13 @@ import { FormsModule }   from '@angular/forms';
 import { AppComponent } from './app.component';
 import { GpaCalculatorComponent } from "./gpa-calculator/gpa-calculator.component";
 import { GpaCalculatorService } from "./gpa-calculator/gpa-calculator.service";
+import { xmlConvertComponent } from "./xml-convert/xml-convert.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    GpaCalculatorComponent
+    GpaCalculatorComponent,
+    xmlConvertComponent
   ],
   imports: [
     BrowserModule,

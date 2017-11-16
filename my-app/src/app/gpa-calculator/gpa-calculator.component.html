@@ -1,42 +1,125 @@
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-9">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Day</th>
-                    <th>Course ID</th>
-                    <th>Course Title</th>
-                    <th>Grade</th>
-                    <th>Credits Earned</th>
-                    <th>Grade Points</th>
+                    <th class="w-day">Day</th>
+                    <th class="w-courseId">Course ID</th>
+                    <th class="w-courseTitle">Course Title</th>
+                    <th class="w-grade">Grade
+                        <select *ngIf="hopeGPA>0" [(ngModel)]="colorSelected">
+                            <option value="Full">Full</option>
+                            <option class="td-green" value="green">Green</option>
+                            <option class="td-yellow" value="yellow">Yellow</option>
+                            <option class="td-red" value="red">Red</option>
+                        </select>
+                    </th>
+                    <th class="w-creditsEarned">Credits Earned</th>
                 </tr>
             </thead>
             <tbody *ngFor="let course of transcript">
-                <tr>
+                <tr *ngIf="course.CreditEarned>0 && showCheck(setColor(convertGrade(course.Grade)))">
                     <td>{{course.Day}}</td>
                     <td>{{course.CourseID}}</td>
                     <td>{{course.CourseTitle}}</td>
-                    <td><input [(ngModel)]="course.Grade"></td>
+                    <td class="td-{{setColor(convertGrade(course.Grade))}}" *ngIf="onSellectGrades(course.CourseID).length>1">
+                        <select [(ngModel)]="course.Grade">
+                            <option *ngFor="let grade of onSellectGrades(course.CourseID)" [value]="grade">{{grade}}</option>
+                        </select>
+                    </td>
+                    <td class="td-{{setColor(convertGrade(course.Grade))}}" *ngIf="onSellectGrades(course.CourseID).length==1">
+                        {{course.Grade}}
+                    </td>
                     <td>{{course.CreditEarned}}</td>
-                    <td>{{convertGrade(course.Grade)*course.CreditEarned}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div class="col-sm-4">
-        <table class="table table-bordered">
-            <thead>
+    <div class="col-sm-3">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="cal-left">Calculator</th>
+                        <th class="cal-right">
+                            <button type="button" class="btn" (click)="refreshData()">Refresh Data</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="cal-left">Current GPA </td>
+                        <td class="cal-right">{{gpaCalculator(transcript_default) | number:'1.2-2'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="cal-left">Modified GPA </td>
+                        <td class="cal-right">{{gpaCalculator(transcript) | number:'1.2-2'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="cal-left">Hope GPA </td>
+                        <td class="cal-right">
+                            <input class="cal-input" [(ngModel)]="hopeGPA">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table *ngIf="modifiedCourses(transcript).length>0" class="table table-bordered">
                 <tr>
-                    <th>Calculator</th>
-                     <button type="button" class="btn" (click)="refreshData()">Refresh Data</button> 
+                    <th colspan="3">
+                        Modified Courses
+                        <button type="button" class="btn btn-sm pull-right" data-toggle="modal" data-target="#myModal" (click)="openExport()">Export</button>
+                    </th>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>GPA: </td>
-                    <td>{{gpaCalculator(transcript)}}</td>
+                <tr *ngFor="let course of modifiedCourses(transcript)">
+                    <td>{{course.CourseTitle}}</td>
+                    <td>{{course.Grade}}</td>
+                    <td>
+                        <button type="button" class="btn btn-xs btn-danger" (click)="deleteChange(course.CourseID)">Delete</button>
+                    </td>
                 </tr>
-            </tbody>
-        </table>
+            </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div #report class="modal-body report">
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">REPORT</h4>
+                </div>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Course ID</th>
+                            <th>Course Title</th>
+                            <th>Current Grade </th>
+                            <th>Modified Grade</th>
+                            <th>Credits Earned</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let course of modifiedCourses(transcript)">
+                        <tr>
+                            <td>{{course.Day}}</td>
+                            <td>{{course.CourseID}}</td>
+                            <td>{{course.CourseTitle}}</td>
+                            <td class="list-group-item-danger">{{gradeBeforeModified(course.CourseID)}}</td>
+                            <td class="list-group-item-success">{{course.Grade}}</td>
+                            <td>{{course.CreditEarned}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-danger">Current GPA : {{gpaCalculator(transcript_default) | number:'1.2-2'}}</li>
+                    <li class="list-group-item list-group-item-success">Modified GPA : {{gpaCalculator(transcript) | number:'1.2-2'}}</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" (click)="download()">Export To PDF</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>

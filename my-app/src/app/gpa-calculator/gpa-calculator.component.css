@@ -1,3 +1,18 @@
+.div-header{
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    padding-top: 5px !important;
+    background-color: #d0dde8 !important;
+}
+
+.custom-button{
+    float: right!important;
+}
+.under-button{
+    width: 100%;
+    height: 15px;
+}
+
 .table-gpa {
     width: 20%;
     position: fixed;
@@ -60,9 +75,6 @@
 }
 .panel-body{
     display: none;
-}
-.custom-button{
-    float: right!important;
 }
 
 .custom-button-export {

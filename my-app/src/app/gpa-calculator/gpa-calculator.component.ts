@@ -57,7 +57,7 @@ export class GpaCalculatorComponent {
             return "alert alert-success";
         }
     }
-
+    
     modifiedCourses(transcript): any {
         let modifiedTranscript: any[] = [];
         for (var i in this.transcript_default) {

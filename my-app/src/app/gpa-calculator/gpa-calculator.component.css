@@ -35,6 +35,10 @@
     width: 100%;
 }
 
+.gpa-modified{
+    background: red;
+}
+
 .report{
     background: white;
 }
@@ -56,4 +60,45 @@
 }
 .panel-body{
     display: none;
+}
+.custom-button{
+    float: right!important;
+}
+
+.custom-button-export {
+    background-color: rgb(52, 108, 192); /* Green */
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.custom-button-export:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.custom-button-refresh {
+    background-color: rgb(207, 0, 162); /* Green */
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.custom-button-refresh:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }

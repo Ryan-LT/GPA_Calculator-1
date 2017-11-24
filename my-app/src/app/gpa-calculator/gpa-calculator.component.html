@@ -1,8 +1,14 @@
 <div class="jumbotron">
-    <h1>GPA CALCULATOR</h1>
-    <p class="text-muted">Wellcome to EIU first GPA estimation system</p>
-    <xml-convert (transcript) = "updateTranscript($event)"></xml-convert>
-    <button type="button" class="btn btn-sm pull-right" data-toggle="modal" data-target="#myModal" (click)="openExport()">Export</button>
+    <div class="text-center">
+            <h1>GPA CALCULATOR</h1>
+            <p class="text-muted">Wellcome to EIU first GPA estimation system</p>
+    </div>
+    <div class="custom-button">
+            <xml-convert (transcript) = "updateTranscript($event)"></xml-convert>
+            <button type="button" class="btn custom-button-export" data-toggle="modal" data-target="#myModal" (click)="openExport()">Export</button>
+            <button type="button" class="btn custom-button-refresh" (click)="refreshData()">Refresh Data</button>
+    </div>
+    
 </div>
 <div>
     <div class="row">
@@ -35,6 +41,7 @@
                             <td>{{course.CourseTitle}}</td>
                             <td *ngIf="onSellectGrades(course.CourseID).length>1">
                                 <select [(ngModel)]="course.Grade" class="form-control">
+                                    <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>
                                     <option *ngFor="let grade of onSellectGrades(course.CourseID)" [value]="grade">{{grade}}</option>
                                 </select>
                             </td>
@@ -58,8 +65,8 @@
                             <td class="cal-left" ><b>Original:</b></td>
                             <td class="cal-right">{{gpaCalculator(transcript_default) | number:'1.2-2'}}</td>
                         </tr>
-                        <tr>
-                            <td class="cal-left"><b>Modified::</b></td>
+                        <tr [ngClass]="{'gpa-modified':gpaCalculator(transcript) >= hopeGPA && hopeGPA>0}">
+                            <td class="cal-left"><b>Modified:</b></td>
                             <td class="cal-right">{{gpaCalculator(transcript) | number:'1.2-2'}}</td>
                         </tr>
                         <tr>
@@ -74,7 +81,6 @@
             <div class="panel panel-success"  *ngIf="modifiedCourses(transcript).length>0" >
                 <div class="panel-heading">
                     <h3 class="panel-title">Modified Courses</h3>
-                    <button type="button" class="btn" (click)="refreshData()">Refresh Data</button>
                 </div>
                 <table class="table table-bordered">
                     <tr *ngFor="let course of modifiedCourses(transcript)">
